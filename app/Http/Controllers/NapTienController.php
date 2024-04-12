@@ -43,7 +43,6 @@ class NapTienController extends Controller
         $pin_hash = rand(100000, 999999);
 
         $check = NapTien::where('id_khach_hang', $khach_hang->id)->where('is_active', 0)->whereNull('thanh_tien')->first();
-        $hello=2;
         if($check) {
             return response()->json([
                 'data' => $check
