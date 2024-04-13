@@ -240,5 +240,116 @@ class KhachHangController extends Controller
             ]);
         }
     }
+    public function kichHoatTaiKhoanKh(Request $request)
+    {
+        $khach_hang = KhachHang::where('id', $request->id)->first();
+
+        if ($khach_hang) {
+            if ($khach_hang->is_active == 0) {
+                $khach_hang->is_active = 1;
+                $khach_hang->save();
+
+                return response()->json([
+                    'status' => true,
+                    'message' => "Đã kích hoạt tài khoản thành công!"
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "Có lỗi xảy ra!"
+            ]);
+        }
+    }
+    public function dataKhachHang()
+    {
+        $data = KhachHang::get();
+
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+    public function doiTrangThaiKhachHang(Request $request)
+    {
+        $khach_hang = KhachHang::where('id', $request->id)->first();
+
+        if ($khach_hang) {
+            $khach_hang->is_block = !$khach_hang->is_block;
+            $khach_hang->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => "Đã đổi trạng thái tài khoản thành công!"
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "Có lỗi xảy ra!"
+            ]);
+        }
+    }
+    public function updateTaiKhoan(Request $request)
+    {
+        $khach_hang = KhachHang::where('id', $request->id)->first();
+
+        if ($khach_hang) {
+            $khach_hang->update([
+                'email'             => $request->email,
+                'so_dien_thoai'     => $request->so_dien_thoai,
+                'ho_va_ten'         => $request->ho_va_ten,
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => "Đã đổi trạng thái tài khoản thành công!"
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "Có lỗi xảy ra!"
+            ]);
+        }
+    }
+    public function deleteTaiKhoan(Request $request)
+    {
+        $khach_hang = KhachHang::where('id', $request->id)->first();
+
+        if ($khach_hang) {
+            $khach_hang->delete();
+
+            return response()->json([
+                'status' => true,
+                'message' => "Đã đổi trạng thái tài khoản thành công!"
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "Có lỗi xảy ra!"
+            ]);
+        }
+    }
+
+    public function doiMatKhauTaiKhoan(Request $request)
+    {
+        $khach_hang = KhachHang::where('id', $request->id)->first();
+
+        if ($khach_hang) {
+            $khach_hang->update([
+                'password' => bcrypt($request->password),
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => "Đã đổi mật khẩu tài khoản thành công!"
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "Có lỗi xảy ra!"
+            ]);
+        }
+    }
+
+
 
 }
