@@ -1,13 +1,17 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DonHangController;
+use App\Http\Controllers\GiaoDichController;
 use App\Http\Controllers\KhachHangController;
 use App\Http\Controllers\NapTienController;
 use App\Http\Controllers\TuDoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PinController;
+use App\Http\Controllers\ThongTinChuyenKhoanController;
 use App\Http\Controllers\ThongTinThanhToanController;
+use App\Models\ThongTinChuyenKhoan;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +57,13 @@ Route::get('/khach-hang/dang-xuat-all', [KhachhangController::class, 'dangXuatAL
 Route::post('/khach-hang/update-thong-tin', [KhachhangController::class, 'updateThongTin']);
 Route::post('/khach-hang/update-mat-khau', [KhachhangController::class, 'updateMatKhau']);
 
-Route::post('/khach-hang/tao-nap-tien', [NapTienController::class, 'taoNapTien']);
+// Route::post('/khach-hang/tao-nap-tien', [NapTienController::class, 'taoNapTien']);//DEL
+// Route::post('/thanh-toan/key-chuyen-khoan', [NapTienController::class, 'keyChuyenKhoan']);//DEL
+// Route::post('/khach-hang/nap-tien-tk', [NapTienController::class, 'napTien']);//DEL
+
+
+Route::post('/khach-hang/nap-tien-tk', [DonHangController::class, 'acTionNapTien']);
+Route::get('/thong-tin-ck/data', [ThongTinChuyenKhoanController::class, 'getData']);
 
 
 
@@ -67,7 +77,14 @@ Route::post('/tu-do/delete', [TuDoController::class, 'desroy']);
 
 
 
-Route::post('/thanh-toan/key-chuyen-khoan', [NapTienController::class, 'keyChuyenKhoan']);
+
+
+
+
+
+
+
+Route::get('/xem-giao-dich', [GiaoDichController::class, 'index']);
 
 
 

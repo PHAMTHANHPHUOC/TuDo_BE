@@ -263,11 +263,14 @@ class KhachHangController extends Controller
     }
     public function dataKhachHang()
     {
-        $data = KhachHang::get();
 
-        return response()->json([
-            'data' => $data
-        ]);
+            $data = KhachHang::get();
+
+            return response()->json([
+                'data' => $data
+            ]);
+
+
     }
     public function doiTrangThaiKhachHang(Request $request)
     {

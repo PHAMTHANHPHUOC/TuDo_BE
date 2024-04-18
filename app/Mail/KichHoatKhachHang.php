@@ -23,7 +23,7 @@ class KichHoatKhachHang extends Mailable
     }
 
     public function build() {
-        return $this->subject("Kích Hoạt Tài Khoản DZFullStack 16{")->view('khachhang', ['hash_active' => $this->hash_active, 'name' => $this->name]);
+        return $this->subject("Kích Hoạt Tài Khoản{")->view('khachhang', ['hash_active' => $this->hash_active, 'name' => $this->name]);
     }
 
 
