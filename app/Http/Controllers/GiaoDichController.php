@@ -47,22 +47,26 @@ class GiaoDichController extends Controller
                     // Khi mà chúng ta tạo giao dịch => tìm giao dịch dựa vào description => đổi trạng thái của đơn hàng
                     $description = $value['description'];
                     // Tìm vị trí của chuỗi "HDBH"
-                    $startIndex = strpos($description, "HDBH");
-                    if ($startIndex !== false) {
-                        $maDonHang = substr($description, $startIndex, strcspn(substr($description, $startIndex), " \t\n\r\0\x0B"));
+                    $pattern = '/PTP\d+/';
+
+                    preg_match($pattern, $description, $matches);
+
+                    // $matches[0] sẽ chứa chuỗi được tìm thấy
+                    if (!empty($matches)) {
+                        $maDonHang = $matches[0]; // PTP151236
+                        $donHang = DonHang::where('ma_don_hang', $maDonHang)
+                                          ->first();
+                        if ($donHang) {
+                            $donHang->is_thanh_toan = 1;
+                            $donHang->save();
+
+                            $user = KhachHang::find($donHang->id_khach_hang);
+                            $user->tong_tien = $user->tong_tien + $value['creditAmount'];
+                            $user->save();
+                        }
                     }
 
-                    $donHang = DonHang::where('ma_don_hang', $maDonHang)
-                        ->where('tong_tien_thanh_toan', $value['creditAmount'])
-                        ->first();
-                    if ($donHang) {
-                        // $user = KhachHang::find($khach_hang -> id)->get();
-                        // $user->tong_tien = $user->tong_tien + $value['creditAmount'];
-                        // $user->save();
 
-                        $donHang->is_thanh_toan = 1;
-                        $donHang->save();
-                    }
                 }
             }
         } catch (Exception $e) {
