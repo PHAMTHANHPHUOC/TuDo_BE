@@ -17,10 +17,8 @@ class TuDoController extends Controller
     {
         $khach_hang = Auth::guard('sanctum')->user();
         $data = TuDo::where('id', $request->id)->first();
-        if($data)
-        {
-            if($data->gia_ban <= $khach_hang->tong_tien)
-            {
+        if ($data) {
+            if ($data->gia_ban <= $khach_hang->tong_tien) {
                 $user = KhachHang::find($khach_hang->id);
                 $so_tien_con_lai = $user->tong_tien - $data->gia_ban;
                 $user->update([
@@ -34,37 +32,52 @@ class TuDoController extends Controller
                     'message'  =>   'Đã Thanh Toán thành công!',
                     'status'   =>   true
                 ]);
-
-            }else{
+            } else {
                 return response()->json([
                     'message'  =>   'Số Tiền Của Bạn Không Đủ Để Thanh Toán',
                     'status'   =>   false
                 ]);
-
             }
-
-
         }
-
     }
-    // public function desroy(Request $request)
-    // {
-    //     $tu_do = TuDo::where('id' ,$request->id)->first()
-    //     if ($tu_do)
-    //      {
-    //         $tu_do->delete();
-
-    //         return response()->json([
-    //             'status' => true,
-    //             'message' => "Đã đổi trạng thái tài khoản thành công!"
-    //         ]);
-    //     } else {
-    //         return response()->json([
-    //             'status' => false,
-    //             'message' => "Có lỗi xảy ra!"
-    //         ]);
-    //     }
-    // }
+    public function update(Request $request)
+    {
+        $data = TuDo::where('id', $request->id)->first();
+        if ($data) {
+            $data->update([
+                'ten_san_pham'   => $request->ten_san_pham,
+                'hinh_anh'       => $request->hinh_anh,
+                'gia_ban'        => $request->gia_ban,
+                'is_active'      => $request->is_active,
+                'pin_active'     => $request->pin_active,
+            ]);
+            return response()->json([
+                'status'    =>   true,
+                'message'   =>   'Đã cập nhật danh sách tủ thành công!'
+            ]);
+        } else {
+            return response()->json([
+                'status'    =>   false,
+                'message'   =>   'Không tìm được tủ đồ để cập nhật!'
+            ]);
+        }
+    }
+    public function desroy($id)
+    {
+        $data   =   TuDo::where('id', $id)->first();
+        if($data) {
+            $data->delete();
+            return response()->json([
+                'status'    =>   true,
+                'message'   =>   'Đã xóa danh mục thành công!'
+            ]);
+        } else {
+            return response()->json([
+                'status'    =>   false,
+                'message'   =>   'Không tìm được danh mục để xóa!'
+            ]);
+        }
+    }
     public function getData()
     {
         $data   = TuDo::select('tu_dos.*')->get();
@@ -74,44 +87,31 @@ class TuDoController extends Controller
         ]);
     }
 
-    public function keyChuyenKhoan(CreateTuDoRequest $request)
+    public function changeStatus(Request $request)
     {
+
         $data = TuDo::where('id', $request->id)->first();
-        $data->update([
-            'has_active'    => $request->has_active,
-            'ten_san_pham'  => $request->ten_san_pham,
-            'hinh_anh'      => $request->hinh_anh,
-            'gia_ban'       => $request->gia_ban,
-        ]);
-        if ($data) {
-            if ($data->has_active == $request->pin_active) {
-
+        if($data) {
+            if($data->is_active == 0) {
                 $data->is_active = 1;
-                $data->save();
-
             } else {
                 $data->is_active = 0;
-                $data->save();
-
-                return response()->json([
-                    'status' => false,
-                    'message' => "Vui lòng nhập đúng thông tin chuyển khoản!"
-                ]);
             }
+            $data->save();
             return response()->json([
-                'status' => true,
-                'message' => "Thanh toán thành công!" ,
+                'status'    =>   true,
+                'message'   =>   'Đã đổi trạng thái danh mục  !',
             ]);
         } else {
             return response()->json([
-                'status' => false,
-                'message' => "Đã có lỗi"
+                'status'    =>   false,
+                'message'   =>   'Không tìm được danh mục để cập nhật!'
             ]);
         }
     }
     public function store(Request $request)
     {
-       $Tu_do = TuDo::create([
+        $Tu_do = TuDo::create([
             'ten_san_pham'   => $request->ten_san_pham,
             'hinh_anh'       => $request->hinh_anh,
             'gia_ban'        => $request->gia_ban,
@@ -125,7 +125,5 @@ class TuDoController extends Controller
             'message'  =>   'Đã tạo mới thành công!',
             'status'   =>   true
         ]);
-
-}
-
+    }
 }

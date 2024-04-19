@@ -43,6 +43,7 @@ Route::post('/khach-hang/login', [KhachhangController::class, 'actionLogin']);
 Route::get('/admin/khach-hang/data', [KhachhangController::class, 'dataKhachHang']);
 Route::post('/admin/khach-hang/doi-trang-thai', [KhachhangController::class, 'doiTrangThaiKhachHang']);
 Route::post('/admin/khach-hang/update', [KhachhangController::class, 'updateTaiKhoan']);
+
 Route::post('/admin/khach-hang/delete', [KhachhangController::class, 'deleteTaiKhoan']);
 Route::post('/admin/khach-hang/doi-mat-khau', [KhachhangController::class, 'doiMatKhauTaiKhoan']);
 Route::post('/admin/kiem-tra-chia-khoa', [KhachHangController::class, 'kiemTraChiaKhoa']);
@@ -73,8 +74,9 @@ Route::post('/tu-do/thanh-toan', [TuDoController::class, 'thanhToan']);
 Route::get('/tu-do/data', [TuDoController::class, 'getData']);
 Route::post('/tu-do/key-chuyen-khoan', [TuDoController::class, 'keyChuyenKhoan']);
 Route::post('/tu-do/create', [TuDoController::class, 'store']);
-Route::post('/tu-do/delete', [TuDoController::class, 'desroy']);
-
+Route::delete('/tu-do/delete/{id}', [TuDoController::class, 'desroy']);
+Route::post('/tu-do/update', [TuDoController::class, 'update']);
+Route::post('/tu-do/change-status', [TuDoController::class, 'changeStatus']);
 
 
 

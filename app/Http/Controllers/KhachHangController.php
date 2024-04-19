@@ -29,7 +29,7 @@ class KhachHangController extends Controller
         } else {
             return response()->json([
                 'status'   =>   false,
-                'message'  =>   'Bạn chưa đăng nhập tài khoản đại lý!',
+                'message'  =>   'Bạn chưa đăng nhập tài khoản!',
             ]);
         }
     }
@@ -89,7 +89,7 @@ class KhachHangController extends Controller
     }
     public function kichHoatTaiKhoan(Request $request)
     {
-        $khach_hang = KhachHang::where('hash_active', $request->id_can_kich_hoat)->first();
+        $khach_hang = KhachHang::where('id', $request->id)->first();
 
         if ($khach_hang) {
             if ($khach_hang->is_active == 0) {
