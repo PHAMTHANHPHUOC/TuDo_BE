@@ -6,6 +6,7 @@ use App\Http\Requests\CreateTuDorequest;
 use App\Models\GiaoDich;
 use App\Models\KhachHang;
 use App\Models\TuDo;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,12 +25,11 @@ class TuDoController extends Controller
                 $user->update([
                     'tong_tien' => $so_tien_con_lai,
                 ]);
-
                 $data->is_active        = 1;
                 $data->id_khach_hang    = $user->id;
                 $data->save();
                 return response()->json([
-                    'message'  =>   'Đã Thanh Toán thành công!',
+                    'message'  =>   'Đã Thanh Toán thành công! mã pin tủ đồ của bạn là : ' . $data->pin_active . '!',
                     'status'   =>   true
                 ]);
             } else {
@@ -62,10 +62,32 @@ class TuDoController extends Controller
             ]);
         }
     }
+    public function updatapin(Request $request)
+    {
+        $khach_hang = Auth::guard('sanctum')->user();
+        if ($khach_hang) {
+            $data = TuDo::where('id', $request->id)->first();
+            if ($data) {
+                $data->update([
+
+                    'pin_active'     => $request->pin_active,
+                ]);
+                return response()->json([
+                    'status'    =>   true,
+                    'message'   =>   'Vui lòng ghi nhớ mã Pin của tủ !'
+                ]);
+            } else {
+                return response()->json([
+                    'status'    =>   false,
+                    'message'   =>   'Đã Có Lỗi!'
+                ]);
+            }
+        }
+    }
     public function desroy($id)
     {
         $data   =   TuDo::where('id', $id)->first();
-        if($data) {
+        if ($data) {
             $data->delete();
             return response()->json([
                 'status'    =>   true,
@@ -91,8 +113,8 @@ class TuDoController extends Controller
     {
 
         $data = TuDo::where('id', $request->id)->first();
-        if($data) {
-            if($data->is_active == 0) {
+        if ($data) {
+            if ($data->is_active == 0) {
                 $data->is_active = 1;
             } else {
                 $data->is_active = 0;

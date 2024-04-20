@@ -57,6 +57,7 @@ Route::get('/khach-hang/dang-xuat-all', [KhachhangController::class, 'dangXuatAL
 
 Route::post('/khach-hang/update-thong-tin', [KhachhangController::class, 'updateThongTin']);
 Route::post('/khach-hang/update-mat-khau', [KhachhangController::class, 'updateMatKhau']);
+Route::post('/khach-hang/hoa-don-thanh-toan', [KhachhangController::class, 'hoaDon']);
 
 // Route::post('/khach-hang/tao-nap-tien', [NapTienController::class, 'taoNapTien']);//DEL
 // Route::post('/thanh-toan/key-chuyen-khoan', [NapTienController::class, 'keyChuyenKhoan']);//DEL
@@ -71,12 +72,14 @@ Route::get('/thong-tin-ck/data', [ThongTinChuyenKhoanController::class, 'getData
 
 
 Route::post('/tu-do/thanh-toan', [TuDoController::class, 'thanhToan']);
+Route::post('/tu-do/tra-tu', [TuDoController::class, 'traTu']);
 Route::get('/tu-do/data', [TuDoController::class, 'getData']);
 Route::post('/tu-do/key-chuyen-khoan', [TuDoController::class, 'keyChuyenKhoan']);
 Route::post('/tu-do/create', [TuDoController::class, 'store']);
 Route::delete('/tu-do/delete/{id}', [TuDoController::class, 'desroy']);
 Route::post('/tu-do/update', [TuDoController::class, 'update']);
 Route::post('/tu-do/change-status', [TuDoController::class, 'changeStatus']);
+Route::post('/khach-hang/update-ma-pin', [TuDoController::class, 'updatapin']);
 
 
 
