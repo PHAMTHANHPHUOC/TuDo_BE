@@ -62,28 +62,7 @@ class TuDoController extends Controller
             ]);
         }
     }
-    public function updatapin(Request $request)
-    {
-        $khach_hang = Auth::guard('sanctum')->user();
-        if ($khach_hang) {
-            $data = TuDo::where('id', $request->id)->first();
-            if ($data) {
-                $data->update([
 
-                    'pin_active'     => $request->pin_active,
-                ]);
-                return response()->json([
-                    'status'    =>   true,
-                    'message'   =>   'Vui lòng ghi nhớ mã Pin của tủ !'
-                ]);
-            } else {
-                return response()->json([
-                    'status'    =>   false,
-                    'message'   =>   'Đã Có Lỗi!'
-                ]);
-            }
-        }
-    }
     public function desroy($id)
     {
         $data   =   TuDo::where('id', $id)->first();
@@ -116,8 +95,16 @@ class TuDoController extends Controller
         if ($data) {
             if ($data->is_active == 0) {
                 $data->is_active = 1;
+
+
+
             } else {
                 $data->is_active = 0;
+                $data->id_khach_hang = 0;
+                $pin_hash = rand(100000, 999999);
+                $data->update([
+                    'pin_active'     =>  $pin_hash
+                ]);
             }
             $data->save();
             return response()->json([
@@ -133,6 +120,8 @@ class TuDoController extends Controller
     }
     public function store(Request $request)
     {
+        $pin_hash = rand(100000, 999999);
+
         $Tu_do = TuDo::create([
             'ten_san_pham'   => $request->ten_san_pham,
             'hinh_anh'       => $request->hinh_anh,
@@ -148,4 +137,33 @@ class TuDoController extends Controller
             'status'   =>   true
         ]);
     }
+    public function dataPinTu()
+    {
+        $khach_hang = Auth::guard('sanctum')->user();
+        $data = TuDo::where('id_khach_hang' , $khach_hang->id)->get();
+
+        return response()->json([
+            'data'  =>  $data
+        ]);
+
+    }
+    public function updatePin(Request $request)
+    {
+        $data = TuDo::where('id', $request->id)->first();
+        if($data){
+            $data->update([
+                'pin_active' => $request->pin_active
+            ]);
+            return response()->json([
+                'message'  =>   'Đã cập nhật mã pin thành công!',
+                'status'   =>   true
+            ]);
+        }
+        return response()->json([
+            'message'  =>   'đã cập nhật mã pin thất bại',
+            'status'   =>   false
+        ]);
+
+    }
+
 }

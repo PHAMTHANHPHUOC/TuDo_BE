@@ -45,8 +45,8 @@ Route::post('/admin/khach-hang/doi-trang-thai', [KhachhangController::class, 'do
 Route::post('/admin/khach-hang/update', [KhachhangController::class, 'updateTaiKhoan']);
 
 Route::post('/admin/khach-hang/delete', [KhachhangController::class, 'deleteTaiKhoan']);
-Route::post('/admin/khach-hang/doi-mat-khau', [KhachhangController::class, 'doiMatKhauTaiKhoan']);
 Route::post('/admin/kiem-tra-chia-khoa', [KhachHangController::class, 'kiemTraChiaKhoa']);
+
 Route::post('/admin/khach-hang/kich-hoat-tai-khoan', [KhachhangController::class, 'kichHoatTaiKhoan']);
 Route::post('/khach-hang/quen-mat-khau', [KhachhangController::class, 'actionQuenmatKhau']);
 Route::post('/khach-hang/lay-lai-mat-khau/{hash_reset}', [KhachhangController::class, 'actionLayLaiMatKhau']);
@@ -57,7 +57,7 @@ Route::get('/khach-hang/dang-xuat-all', [KhachhangController::class, 'dangXuatAL
 
 Route::post('/khach-hang/update-thong-tin', [KhachhangController::class, 'updateThongTin']);
 Route::post('/khach-hang/update-mat-khau', [KhachhangController::class, 'updateMatKhau']);
-Route::post('/khach-hang/hoa-don-thanh-toan', [KhachhangController::class, 'hoaDon']);
+Route::get('/khach-hang/hoa-don-thanh-toan', [KhachhangController::class, 'hoaDon']);
 
 // Route::post('/khach-hang/tao-nap-tien', [NapTienController::class, 'taoNapTien']);//DEL
 // Route::post('/thanh-toan/key-chuyen-khoan', [NapTienController::class, 'keyChuyenKhoan']);//DEL
@@ -79,7 +79,9 @@ Route::post('/tu-do/create', [TuDoController::class, 'store']);
 Route::delete('/tu-do/delete/{id}', [TuDoController::class, 'desroy']);
 Route::post('/tu-do/update', [TuDoController::class, 'update']);
 Route::post('/tu-do/change-status', [TuDoController::class, 'changeStatus']);
-Route::post('/khach-hang/update-ma-pin', [TuDoController::class, 'updatapin']);
+Route::get('/tu-do/data-pin', [TuDoController::class, 'dataPinTu']);
+Route::post('/tu-do/doi-ma-pin', [TuDoController::class, 'updatePin']);
+
 
 
 

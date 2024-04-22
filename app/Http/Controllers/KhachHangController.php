@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Mail\KichHoatKhachHang;
 use App\Mail\QuenMatKhau;
 use App\Mail\QuenMatKhauKhachHang;
+use App\Models\DonHang;
+use App\Models\GiaoDich;
 use App\Models\KhachHang;
 use Exception;
 use Illuminate\Http\Request;
@@ -36,21 +38,20 @@ class KhachHangController extends Controller
     public function store(Request $request)
     {
 
-            $tai_khoan = KhachHang::create([
-                'email'             => $request->email,
-                'so_dien_thoai'     => $request->so_dien_thoai,
-                'ho_va_ten'         => $request->ho_va_ten,
-                'password'          => bcrypt($request->password),
-                'hash_active'       => Str::uuid(),
-            ]);
+        $tai_khoan = KhachHang::create([
+            'email'             => $request->email,
+            'so_dien_thoai'     => $request->so_dien_thoai,
+            'ho_va_ten'         => $request->ho_va_ten,
+            'password'          => bcrypt($request->password),
+            'hash_active'       => Str::uuid(),
+        ]);
 
-            Mail::to($request->email)->send(new KichHoatKhachHang($tai_khoan->hash_active, $request->ho_va_ten));
+        Mail::to($request->email)->send(new KichHoatKhachHang($tai_khoan->hash_active, $request->ho_va_ten));
 
-            return response()->json([
-                'status' => true,
-                'message' => "Đăng Kí Tài Khoản Thành Công!"
-            ]);
-
+        return response()->json([
+            'status' => true,
+            'message' => "Đăng Kí Tài Khoản Thành Công!"
+        ]);
     }
 
     public function actionLogin(Request $request)
@@ -158,42 +159,38 @@ class KhachHangController extends Controller
     public function dangXuat()
     {
         $khach_hang = Auth::guard('sanctum')->user();
-        if($khach_hang){
+        if ($khach_hang) {
             DB::table('personal_access_tokens')
-            -> where('id', $khach_hang->currentAccessToken()->id)->delete();
+                ->where('id', $khach_hang->currentAccessToken()->id)->delete();
             return response()->json([
                 'status' => true,
                 'message' => "Đã Đăng Xuất Thiết Bị Thành Công"
             ]);
-
-        }else{
+        } else {
             return response()->json([
                 'status' => false,
                 'message' => "Vui lòng đăng nhập"
             ]);
         }
-
     }
     public function dangXuatALL()
     {
         $khach_hang = Auth::guard('sanctum')->user();
-        if($khach_hang){
+        if ($khach_hang) {
             $ds_token = $khach_hang->tokens;
-            foreach($ds_token as $k => $v){
+            foreach ($ds_token as $k => $v) {
                 $v->delete();
             }
             return response()->json([
                 'status' => true,
                 'message' => "Đã Đăng Xuất Thiết Bị Thành Công"
             ]);
-
-        }else{
+        } else {
             return response()->json([
                 'status' => false,
                 'message' => "Vui lòng đăng nhập"
             ]);
         }
-
     }
 
 
@@ -264,13 +261,11 @@ class KhachHangController extends Controller
     public function dataKhachHang()
     {
 
-            $data = KhachHang::get();
+        $data = KhachHang::get();
 
-            return response()->json([
-                'data' => $data
-            ]);
-
-
+        return response()->json([
+            'data' => $data
+        ]);
     }
     public function doiTrangThaiKhachHang(Request $request)
     {
@@ -352,7 +347,43 @@ class KhachHangController extends Controller
             ]);
         }
     }
+    public function hoaDon(Request $request)
+    {
+        $khach_hang = Auth::guard('sanctum')->user();
+        if ($khach_hang) {
+            $donHang = DonHang::find('id' , $request->id);
+            $giaoDich = GiaoDich::where('description', 'like', '%Thanh toán đơn hàng%')
+                ->where('pos', $donHang->ma_don_hang)
+                ->first();
+        }
 
 
 
+
+        // // Truy vấn để lấy thông tin đơn hàng cụ thể
+        // $donHang = DonHang::find($idDonHang);
+
+        // if (!$donHang) {
+        //     // Xử lý trường hợp không tìm thấy đơn hàng
+        //     return response()->json(['error' => 'Không tìm thấy đơn hàng'], 404);
+        // }
+        // // Truy vấn để lấy thông tin khách hàng của đơn hàng
+        // $khachHang = KhachHang::find($donHang->id_khach_hang);
+        // // Truy vấn để lấy thông tin giao dịch (thanh toán) của đơn hàng
+        // $giaoDich = GiaoDich::where('description', 'like', '%Thanh toán đơn hàng%')
+        //             ->where('pos', $donHang->ma_don_hang)
+        //             ->first();
+        // if (!$giaoDich) {
+        //     // Xử lý trường hợp không tìm thấy thông tin thanh toán
+        //     return response()->json(['error' => 'Không tìm thấy thông tin thanh toán'], 404);
+        // }
+        // // Tạo một mảng chứa dữ liệu của hóa đơn để trả về
+        // $hoaDon = [
+        //     'don_hang' => $donHang,
+        //     'khach_hang' => $khachHang,
+        //     'giao_dich' => $giaoDich
+        // ];
+        // // Trả về dữ liệu hóa đơn
+        // return response()->json($hoaDon);
+    }
 }
