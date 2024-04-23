@@ -14,7 +14,7 @@ class DonHang extends Model
         'tong_tien_thanh_toan',
         'is_thanh_toan',
         'tinh_trang',
-        'ten_khach_hang',
+        'ho_va_ten',
         'so_dien_thoai',
         'dia_chi_giao_hang',
         'id_khach_hang',

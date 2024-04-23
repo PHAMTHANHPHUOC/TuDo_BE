@@ -30,8 +30,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/admin/create', [AdminController::class, 'store']);
 Route::post('/admin/login', [AdminController::class, 'actionLogin']);
 Route::get('/admin/thong-tin', [AdminController::class, 'thongTin']);
-Route::post('/admin/khach-hang/kich-hoat-tai-khoan', [KhachHangController::class, 'kichHoatTaiKhoanKh']);
-
+Route::get('/admin/dang-xuat', [AdminController::class, 'dangxuat']);
 
 
 
@@ -47,7 +46,8 @@ Route::post('/admin/khach-hang/update', [KhachhangController::class, 'updateTaiK
 Route::post('/admin/khach-hang/delete', [KhachhangController::class, 'deleteTaiKhoan']);
 Route::post('/admin/kiem-tra-chia-khoa', [KhachHangController::class, 'kiemTraChiaKhoa']);
 
-Route::post('/admin/khach-hang/kich-hoat-tai-khoan', [KhachhangController::class, 'kichHoatTaiKhoan']);
+Route::get('/kich-hoat-tai-khoan/{id}', [KhachHangController::class, 'kichHoatTaiKhoan']);
+
 Route::post('/khach-hang/quen-mat-khau', [KhachhangController::class, 'actionQuenmatKhau']);
 Route::post('/khach-hang/lay-lai-mat-khau/{hash_reset}', [KhachhangController::class, 'actionLayLaiMatKhau']);
 Route::get('/khach-hang/thong-tin', [KhachhangController::class, 'thongTin']);

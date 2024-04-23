@@ -101,7 +101,7 @@ class TuDoController extends Controller
             } else {
                 $data->is_active = 0;
                 $data->id_khach_hang = 0;
-                $pin_hash = rand(100000, 999999);
+                $pin_hash = rand(1000, 9999);
                 $data->update([
                     'pin_active'     =>  $pin_hash
                 ]);
@@ -120,8 +120,6 @@ class TuDoController extends Controller
     }
     public function store(Request $request)
     {
-        $pin_hash = rand(100000, 999999);
-
         $Tu_do = TuDo::create([
             'ten_san_pham'   => $request->ten_san_pham,
             'hinh_anh'       => $request->hinh_anh,

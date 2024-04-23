@@ -27,7 +27,7 @@ class DonHangController extends Controller
                     'tong_tien_thanh_toan'      => $khach_hang->tong_tien,
                     'is_thanh_toan'             => 0,   //Khong cần viết dòng nãy cũng được
                     'tinh_trang'       => 0,   //Khong cần viết dòng nãy cũng được
-                    'ten_khach_hang'            => $khach_hang->ho_va_ten,
+                    'ho_va_ten'            => $khach_hang->ho_va_ten,
                     'so_dien_thoai'             => $khach_hang->so_dien_thoai,
                     'dia_chi_giao_hang'         => "Đà Nẵng",   //Khong cần viết dòng nãy cũng được
                     'id_khach_hang'             => $khach_hang->id
@@ -39,7 +39,7 @@ class DonHangController extends Controller
 
             $link   =   "https://img.vietqr.io/image/MB-0347941497-compact.png?amount="."&addInfo=" . $don_hang->ma_don_hang;
 
-            $nap_tien                               = ThongTinChuyenKhoan::where('id_khach_hang',$khach_hang->id)->first();
+            $nap_tien                                   = ThongTinChuyenKhoan::where('id_khach_hang',$khach_hang->id)->first();
             if($nap_tien) {
                 $nap_tien->ten_nguoi_nhan               = $khach_hang->ho_va_ten;
                 $nap_tien->so_dien_thoai_nguoi_nhan     = $khach_hang->so_dien_thoai;

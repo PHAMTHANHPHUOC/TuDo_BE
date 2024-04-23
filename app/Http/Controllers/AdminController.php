@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\KhachHang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 class AdminController extends Controller
 {
@@ -69,6 +70,25 @@ class AdminController extends Controller
             'data' => $admin
         ]);
     }
-   
+    public function dangxuat()
+    {
+        $admin = Auth::guard('sanctum')->user();
+        if ($admin) {
+            DB::table('personal_access_tokens')
+                ->where('id', $admin->currentAccessToken()->id)->delete();
+            return response()->json([
+                'status' => true,
+                'message' => "Đã Đăng Xuất Thiết Bị Thành Công"
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "Vui lòng đăng nhập"
+            ]);
+        }
+
+
+    }
+
 
 }

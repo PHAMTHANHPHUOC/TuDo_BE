@@ -88,24 +88,23 @@ class KhachHangController extends Controller
             ]);
         }
     }
-    public function kichHoatTaiKhoan(Request $request)
+    public function kichHoatTaiKhoan($hash_active)
     {
-        $khach_hang = KhachHang::where('id', $request->id)->first();
+        $tai_khoan = KhachHang::where('hash_active', $hash_active)->where('is_active', 0)->first();
 
-        if ($khach_hang) {
-            if ($khach_hang->is_active == 0) {
-                $khach_hang->is_active = 1;
-                $khach_hang->save();
+        if($tai_khoan) {
+            $tai_khoan->is_active = 1;
+            $tai_khoan->hash_active = null;
+            $tai_khoan->save();
 
-                return response()->json([
-                    'status' => true,
-                    'message' => "Đã kích hoạt tài khoản thành công!"
-                ]);
-            }
+            return response()->json([
+                'status' => true,
+                'message' => "Bạn đã kích hoạt tài khoản thành công!"
+            ]);
         } else {
             return response()->json([
                 'status' => false,
-                'message' => "Có lỗi xảy ra!"
+                'message' => "Tài khoản bạn đã được kích hoạt hoặc không tồn tại!"
             ]);
         }
     }
@@ -237,27 +236,26 @@ class KhachHangController extends Controller
             ]);
         }
     }
-    public function kichHoatTaiKhoanKh(Request $request)
-    {
-        $khach_hang = KhachHang::where('id', $request->id)->first();
+    // public function kichHoatTaiKhoanKh(Request $request)
+    // {
+    //     $khach_hang = KhachHang::where('id', $request->id)->first();
 
-        if ($khach_hang) {
-            if ($khach_hang->is_active == 0) {
-                $khach_hang->is_active = 1;
-                $khach_hang->save();
-
-                return response()->json([
-                    'status' => true,
-                    'message' => "Đã kích hoạt tài khoản thành công!"
-                ]);
-            }
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => "Có lỗi xảy ra!"
-            ]);
-        }
-    }
+    //     if ($khach_hang) {
+    //         if ($khach_hang->is_active == 0) {
+    //             $khach_hang->is_active = 1;
+    //             $khach_hang->save();
+    //             return response()->json([
+    //                 'status' => true,
+    //                 'message' => "Đã kích hoạt tài khoản thành công!"
+    //             ]);
+    //         }
+    //     } else {
+    //         return response()->json([
+    //             'status' => false,
+    //             'message' => "Có lỗi xảy ra!"
+    //         ]);
+    //     }
+    // }
     public function dataKhachHang()
     {
 
