@@ -31,6 +31,7 @@ Route::post('/admin/create', [AdminController::class, 'store']);
 Route::post('/admin/login', [AdminController::class, 'actionLogin']);
 Route::get('/admin/thong-tin', [AdminController::class, 'thongTin']);
 Route::get('/admin/dang-xuat', [AdminController::class, 'dangxuat']);
+Route::post('/admin/kiem-tra-chia-khoa', [AdminController::class, 'kiemTraChiaKhoaAdmin']);
 
 
 
@@ -44,7 +45,7 @@ Route::post('/admin/khach-hang/doi-trang-thai', [KhachhangController::class, 'do
 Route::post('/admin/khach-hang/update', [KhachhangController::class, 'updateTaiKhoan']);
 
 Route::post('/admin/khach-hang/delete', [KhachhangController::class, 'deleteTaiKhoan']);
-Route::post('/admin/kiem-tra-chia-khoa', [KhachHangController::class, 'kiemTraChiaKhoa']);
+Route::post('/khach-hang/kiem-tra-chia-khoa', [KhachHangController::class, 'kiemTraChiaKhoakh']);
 
 Route::get('/kich-hoat-tai-khoan/{id}', [KhachHangController::class, 'kichHoatTaiKhoan']);
 
@@ -93,6 +94,7 @@ Route::post('/tu-do/doi-ma-pin', [TuDoController::class, 'updatePin']);
 
 
 Route::get('/xem-giao-dich', [GiaoDichController::class, 'index']);
+Route::get('/khach-hang/hoa-don-thanh-toan', [DonHangController::class, 'hoadon']);
 
 
 

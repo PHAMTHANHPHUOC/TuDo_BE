@@ -9,11 +9,14 @@ use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GiaoDichController extends Controller
 {
     public function index()
     {
+
+
         $client = new Client();
         $payload = [
             "USERNAME"      => "0347941497",
@@ -42,6 +45,7 @@ class GiaoDichController extends Controller
                         'creditAmount'      =>  $value['creditAmount'],
                         'description'       =>  $value['description'],
                         'pos'               =>  $value['pos'],
+
                     ]);
                     // Khi mà chúng ta tạo giao dịch => tìm giao dịch dựa vào description => đổi trạng thái của đơn hàng
                     // Khi mà chúng ta tạo giao dịch => tìm giao dịch dựa vào description => đổi trạng thái của đơn hàng
@@ -73,4 +77,5 @@ class GiaoDichController extends Controller
             echo $e;
         }
     }
+   
 }

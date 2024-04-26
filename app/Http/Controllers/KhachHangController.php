@@ -20,10 +20,11 @@ use Illuminate\Support\Str;
 
 class KhachHangController extends Controller
 {
-    public function kiemTraChiaKhoa()
+    public function kiemTraChiaKhoakh()
     {
-        $check  = Auth::guard('sanctum')->user();
-        if ($check) {
+        $user = Auth::guard('sanctum')->user();
+
+        if ($user) {
             return response()->json([
                 'status'   =>   true,
                 'message'  =>   'Ok, bạn có thể đi qua!',

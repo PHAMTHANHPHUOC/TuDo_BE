@@ -13,5 +13,6 @@ class GiaoDich extends Model
         'creditAmount',
         'description',
         'pos',
+
     ];
 }

@@ -89,6 +89,22 @@ class AdminController extends Controller
 
 
     }
+    public function kiemTraChiaKhoaAdmin()
+    {
+        $admin = Auth::guard('sanctum')->user();
+
+        if ($admin) {
+            return response()->json([
+                'status'   =>   true,
+                'message'  =>   'Ok, bạn có thể đi qua!',
+            ]);
+        } else {
+            return response()->json([
+                'status'   =>   false,
+                'message'  =>   'Bạn chưa đăng nhập tài khoản!',
+            ]);
+        }
+    }
 
 
 }

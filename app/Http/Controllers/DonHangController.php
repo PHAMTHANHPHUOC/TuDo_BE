@@ -13,6 +13,7 @@ class DonHangController extends Controller
     public function acTionNapTien(Request $request)
     {
         $khach_hang = Auth::guard('sanctum')->user();
+
         if($khach_hang)
         {
             $don_hang = DonHang::where('id_khach_hang',  $khach_hang->id)
@@ -26,8 +27,8 @@ class DonHangController extends Controller
                     'ma_don_hang'               => "",
                     'tong_tien_thanh_toan'      => $khach_hang->tong_tien,
                     'is_thanh_toan'             => 0,   //Khong cần viết dòng nãy cũng được
-                    'tinh_trang'       => 0,   //Khong cần viết dòng nãy cũng được
-                    'ho_va_ten'            => $khach_hang->ho_va_ten,
+                    'tinh_trang'              => 0,   //Khong cần viết dòng nãy cũng được
+                    'ho_va_ten'              => $khach_hang->ho_va_ten,
                     'so_dien_thoai'             => $khach_hang->so_dien_thoai,
                     'dia_chi_giao_hang'         => "Đà Nẵng",   //Khong cần viết dòng nãy cũng được
                     'id_khach_hang'             => $khach_hang->id
@@ -65,4 +66,6 @@ class DonHangController extends Controller
             ]);
         }
     }
+    
+
 }

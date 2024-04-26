@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('creditAmount');
             $table->text('description');
             $table->string('pos');
+
             $table->timestamps();
         });
     }
