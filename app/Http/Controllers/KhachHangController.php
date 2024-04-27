@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CapNhapKhachHangRequest;
+use App\Http\Requests\DoiMatKhauKhachHangRequest;
+use App\Http\Requests\DoiMatKhaurRequest;
+use App\Http\Requests\LayLaiMatKhauRequest;
+use App\Http\Requests\ThemMoiKhachHangRequest;
 use App\Mail\KichHoatKhachHang;
 use App\Mail\QuenMatKhau;
 use App\Mail\QuenMatKhauKhachHang;
@@ -20,23 +25,23 @@ use Illuminate\Support\Str;
 
 class KhachHangController extends Controller
 {
-    public function kiemTraChiaKhoakh()
+    public function kiemTraChiaKhoaKhachHang()
     {
-        $user = Auth::guard('sanctum')->user();
 
-        if ($user) {
+         $khach_hang  = $this->isUserKhachHang();
+
+        if($khach_hang) {
             return response()->json([
-                'status'   =>   true,
-                'message'  =>   'Ok, bạn có thể đi qua!',
+                'status' => true,
             ]);
         } else {
             return response()->json([
-                'status'   =>   false,
-                'message'  =>   'Bạn chưa đăng nhập tài khoản!',
+                'status' => false,
+                'message' => "Vui lòng đăng nhập"
             ]);
         }
     }
-    public function store(Request $request)
+    public function store(ThemMoiKhachHangRequest $request)
     {
 
         $tai_khoan = KhachHang::create([
@@ -130,7 +135,7 @@ class KhachHangController extends Controller
             ]);
         }
     }
-    public function actionLayLaiMatKhau($hash_reset, Request $request)
+    public function actionLayLaiMatKhau($hash_reset, LayLaiMatKhauRequest $request)
     {
         $khach_hang = KhachHang::where('hash_reset', $hash_reset)->first();
         if ($khach_hang) {
@@ -159,12 +164,13 @@ class KhachHangController extends Controller
     public function dangXuat()
     {
         $khach_hang = Auth::guard('sanctum')->user();
-        if ($khach_hang) {
+        if($khach_hang){
             DB::table('personal_access_tokens')
-                ->where('id', $khach_hang->currentAccessToken()->id)->delete();
+              ->where('id', $khach_hang->currentAccessToken()->id)->delete();
+
             return response()->json([
                 'status' => true,
-                'message' => "Đã Đăng Xuất Thiết Bị Thành Công"
+                'message' => "Đã đăng xuất thiết bị này thành công"
             ]);
         } else {
             return response()->json([
@@ -179,7 +185,9 @@ class KhachHangController extends Controller
         if ($khach_hang) {
             $ds_token = $khach_hang->tokens;
             foreach ($ds_token as $k => $v) {
-                $v->delete();
+                if($v->tokenable_type == "App\Models\KhachHang"){
+                    $v->delete();
+                }
             }
             return response()->json([
                 'status' => true,
@@ -217,7 +225,7 @@ class KhachHangController extends Controller
         }
     }
 
-    public function updateMatKhau(Request $request)
+    public function updateMatKhau(LayLaiMatKhauRequest $request)
     {
         $khach_hang = Auth::guard('sanctum')->user();
         // return response()->json($khach_hang);
@@ -285,7 +293,7 @@ class KhachHangController extends Controller
             ]);
         }
     }
-    public function updateTaiKhoan(Request $request)
+    public function updateTaiKhoan(CapNhapKhachHangRequest $request)
     {
         $khach_hang = KhachHang::where('id', $request->id)->first();
 
@@ -326,10 +334,11 @@ class KhachHangController extends Controller
         }
     }
 
-    public function doiMatKhauTaiKhoan(Request $request)
+    public function doiMatKhauTaiKhoan(DoiMatKhaurRequest $request)
     {
-        $khach_hang = KhachHang::where('id', $request->id)->first();
 
+        $user = Auth::guard('sanctum')->user();
+        $khach_hang = KhachHang::where('id', $request->id)->first();
         if ($khach_hang) {
             $khach_hang->update([
                 'password' => bcrypt($request->password),
@@ -346,6 +355,29 @@ class KhachHangController extends Controller
             ]);
         }
     }
+    public function doiMatKhauKhachHang(DoiMatKhaurRequest $request)
+    {
+
+        $khach_hang = Auth::guard('sanctum')->user();
+
+        if ($khach_hang) {
+            KhachHang::where('id', $khach_hang->id)->update([
+                'password' => bcrypt($request->password),
+
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => "Đã đổi mật khẩu tài khoản thành công!"
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "Có lỗi xảy ra!"
+            ]);
+        }
+    }
+
     public function hoaDon(Request $request)
     {
         $khach_hang = Auth::guard('sanctum')->user();

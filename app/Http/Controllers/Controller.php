@@ -11,21 +11,22 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    public function isUserAdmin()
-    {
-        $user = Auth::guard('sanctum')->user();
 
-        if ($user instanceof \App\Models\Admin) {
-            return $user;
+    public function isUserKhachHang()
+    {
+        $khach_hang = Auth::guard('sanctum')->user();
+
+        if ($khach_hang instanceof \App\Models\KhachHang) {
+            return $khach_hang;
         }
         return false;
     }
-    public function isUserKhachHang()
+    public function isUserAdmin()
     {
-        $user = Auth::guard('sanctum')->user();
+        $admin = Auth::guard('sanctum')->user();
 
-        if ($user instanceof \App\Models\KhachHang) {
-            return $user;
+        if ($admin instanceof \App\Models\Admin) {
+            return $admin;
         }
         return false;
     }

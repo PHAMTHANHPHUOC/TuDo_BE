@@ -23,6 +23,7 @@ use App\Models\ThongTinChuyenKhoan;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::get('/xem-giao-dich', [GiaoDichController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -45,7 +46,7 @@ Route::post('/admin/khach-hang/doi-trang-thai', [KhachhangController::class, 'do
 Route::post('/admin/khach-hang/update', [KhachhangController::class, 'updateTaiKhoan']);
 
 Route::post('/admin/khach-hang/delete', [KhachhangController::class, 'deleteTaiKhoan']);
-Route::post('/khach-hang/kiem-tra-chia-khoa', [KhachHangController::class, 'kiemTraChiaKhoakh']);
+Route::post('/khach-hang/kiem-tra-chia-khoa', [KhachhangController::class, 'kiemTraChiaKhoaKhachHang']);
 
 Route::get('/kich-hoat-tai-khoan/{id}', [KhachHangController::class, 'kichHoatTaiKhoan']);
 
@@ -58,6 +59,9 @@ Route::get('/khach-hang/dang-xuat-all', [KhachhangController::class, 'dangXuatAL
 
 Route::post('/khach-hang/update-thong-tin', [KhachhangController::class, 'updateThongTin']);
 Route::post('/khach-hang/update-mat-khau', [KhachhangController::class, 'updateMatKhau']);
+Route::post('/admin/doi-mat-khau', [KhachhangController::class, 'doiMatKhauTaiKhoan']);
+Route::post('/khach-hang/doi-mat-khau', [KhachhangController::class, 'doiMatKhauKhachHang']);
+
 Route::get('/khach-hang/hoa-don-thanh-toan', [KhachhangController::class, 'hoaDon']);
 
 // Route::post('/khach-hang/tao-nap-tien', [NapTienController::class, 'taoNapTien']);//DEL
@@ -93,7 +97,6 @@ Route::post('/tu-do/doi-ma-pin', [TuDoController::class, 'updatePin']);
 
 
 
-Route::get('/xem-giao-dich', [GiaoDichController::class, 'index']);
 Route::get('/khach-hang/hoa-don-thanh-toan', [DonHangController::class, 'hoadon']);
 
 
