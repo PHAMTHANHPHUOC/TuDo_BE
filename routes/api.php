@@ -70,6 +70,8 @@ Route::get('/khach-hang/hoa-don-thanh-toan', [KhachhangController::class, 'hoaDo
 
 
 Route::post('/khach-hang/nap-tien-tk', [DonHangController::class, 'acTionNapTien']);
+Route::get('/don-hang/data', [DonHangController::class, 'data']);
+
 Route::get('/thong-tin-ck/data', [ThongTinChuyenKhoanController::class, 'getData']);
 
 

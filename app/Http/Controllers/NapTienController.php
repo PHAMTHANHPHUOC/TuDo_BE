@@ -62,7 +62,5 @@ class NapTienController extends Controller
     public function napTien(Request $request)
     {
         $khach_hang = Auth::guard('sanctum')->user();
-
-
     }
 }

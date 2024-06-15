@@ -10,6 +10,16 @@ use Termwind\Components\Raw;
 
 class DonHangController extends Controller
 {
+    public function data(Request $request)
+    {
+        $khach_hang = Auth::guard('sanctum')->user();
+        $data = DonHang::where('id_khach_hang' , $khach_hang->id)->get();
+        return response()->json([
+            'data'  =>  $data
+        ]);
+
+    }
+
     public function acTionNapTien(Request $request)
     {
         $khach_hang = Auth::guard('sanctum')->user();
@@ -27,8 +37,8 @@ class DonHangController extends Controller
                     'ma_don_hang'               => "",
                     'tong_tien_thanh_toan'      => $khach_hang->tong_tien,
                     'is_thanh_toan'             => 0,   //Khong cần viết dòng nãy cũng được
-                    'tinh_trang'              => 0,   //Khong cần viết dòng nãy cũng được
-                    'ho_va_ten'              => $khach_hang->ho_va_ten,
+                    'tinh_trang'                => 0,   //Khong cần viết dòng nãy cũng được
+                    'ho_va_ten'                 => $khach_hang->ho_va_ten,
                     'so_dien_thoai'             => $khach_hang->so_dien_thoai,
                     'dia_chi_giao_hang'         => "Đà Nẵng",   //Khong cần viết dòng nãy cũng được
                     'id_khach_hang'             => $khach_hang->id
@@ -38,7 +48,7 @@ class DonHangController extends Controller
                 $don_hang->save();
             }
 
-            $link   =   "https://img.vietqr.io/image/MB-0347941497-compact.png?amount="."&addInfo=" . $don_hang->ma_don_hang;
+            $link   =   "https://img.vietqr.io/image/MB-0347941497-print.png?amount="."&addInfo=" . $don_hang->ma_don_hang;
 
             $nap_tien                                   = ThongTinChuyenKhoan::where('id_khach_hang',$khach_hang->id)->first();
             if($nap_tien) {
@@ -66,6 +76,6 @@ class DonHangController extends Controller
             ]);
         }
     }
-    
+
 
 }
